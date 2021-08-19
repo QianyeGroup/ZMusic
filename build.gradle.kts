@@ -23,9 +23,17 @@ publishing {
         }
     }
     publications {
-        register("gpr") {
+         create<MavenPublication>("maven") {
+            groupId = "me.zhenxin.zmusic"
+            artifactId = tasks.jar.get().archiveBaseName.get()
+            version = tasks.jar.get().archiveVersion.get()
+
             from(components["java"])
-        }
+
+            pom {
+                name.set("ZMusic")
+            }
+         }
     }
 }
 
