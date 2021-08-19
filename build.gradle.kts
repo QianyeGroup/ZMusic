@@ -2,12 +2,33 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
+    `maven-publish`
     id("io.izzel.taboolib") version "1.18"
     id("org.jetbrains.kotlin.jvm") version "1.5.21"
 }
 
 group = "me.zhenxin.zmusic"
 version = "3.0-21w32a"
+
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/RealHeart/ZMusic")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        register("gpr") {
+            from(components["java"])
+        }
+    }
+}
+
 
 taboolib {
     description {
