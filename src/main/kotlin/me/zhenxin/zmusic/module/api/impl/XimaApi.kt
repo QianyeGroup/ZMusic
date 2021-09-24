@@ -1,7 +1,6 @@
 package me.zhenxin.zmusic.module.api.impl
 
 import cn.hutool.json.JSONObject
-import me.zhenxin.zmusic.module.Config
 import me.zhenxin.zmusic.module.Lang
 import me.zhenxin.zmusic.module.api.MusicApi
 import me.zhenxin.zmusic.module.api.MusicInfo
@@ -9,45 +8,42 @@ import me.zhenxin.zmusic.utils.HttpUtil
 import java.net.URLEncoder
 
 /**
- * 网易云音乐接口实现
+ * 喜马拉雅实现
  *
  * @author 真心
- * @since 2021/7/14 21:37
+ * @since 2021/9/8 10:32
  * @email qgzhenxin@qq.com
  */
-class NeteaseApi : MusicApi {
-    private val api = Config.API_NETEASE_LINK
-    override val name: String = Lang.PLATFORM_NETEASE
+@Suppress("SpellCheckingInspection")
+class XimaApi : MusicApi {
+    override val name: String = Lang.PLATFORM_XIMA
 
     override fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo> {
         val musics = mutableListOf<MusicInfo>()
-        val offset = (page - 1) * count
         val search =
             HttpUtil.get(
-                "$api/cloudsearch?keywords=${
+                "https://www.ximalaya.com/revision/search/main?kw=${
                     URLEncoder.encode(keyword, "UTF-8")
-                }&limit=$count&offset=$offset"
+                }&core=track&page=$page&rows=$count"
             )
         val data = JSONObject(search.data)
-        val result = data.getJSONObject("result")
-        val songs = result.getJSONArray("songs")
+        val result = data.getJSONObject("data")
+        val track = result.getJSONObject("track")
+        val songs = track.getJSONArray("docs")
         songs.forEach {
             it as JSONObject
 
             val id = it.getStr("id")
-            val name = it.getStr("name")
-            val singers = it.getJSONArray("ar")
-            val singer = mergeSingers(singers)
-            val album = it.getJSONObject("al")
-            val albumName = album.getStr("name")
-            val albumImage = album.getStr("picUrl")
-            val duration = it.getLong("dt")
+            val name = it.getStr("title")
+            val albumName = it.getStr("albumTitle")
+            val albumImage = it.getStr("albumCoverPath")
+            val duration = it.getLong("duration") * 1000
 
             musics.add(
                 MusicInfo(
                     id,
                     name,
-                    singer,
+                    this.name,
                     albumName,
                     albumImage,
                     duration
@@ -66,9 +62,12 @@ class NeteaseApi : MusicApi {
     }
 
     override fun getPlayUrl(id: String): String {
-        val result = HttpUtil.get("$api/song/url?id=$id")
+        val result =
+            HttpUtil.get("https://mobile.ximalaya.com/mobile-playpage/playpage/tabs/$id/ts-${System.currentTimeMillis()}")
         val json = JSONObject(result.data)
-        val data = json.getJSONArray("data")[0] as JSONObject
-        return data.getStr("url")
+        val data = json.getJSONObject("data")
+        val page = data.getJSONObject("playpage")
+        val track = page.getJSONObject("trackInfo")
+        return track.getStr("playUrl64")
     }
 }

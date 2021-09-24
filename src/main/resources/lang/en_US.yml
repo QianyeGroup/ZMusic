@@ -1,0 +1,42 @@
+platform-netease: 'Netease CloudMusic'
+platform-qq: 'QQ Music'
+platform-bili: 'BiliBili Music'
+platform-kugou: 'KuGou Music'
+platform-xima: 'Ximalaya FM'
+
+init-loading: '&aLoading...'
+init-loaded:
+  - '&aPlugin loaded!'
+  - '&aPlugin Version: &b{0}'
+  - '&aCurrent Platform: &b{1}'
+  - '&aDocs: &bm.zplu.cc'
+  - '&aPlugin Author: &bZhenXin'
+
+help-tips: '&aInput &a/&e{0} &bhelp &aShow Help.'
+help-main:
+  - '&a/&e{0} &bhelp &c- &aShow Main Help(this).'
+  - '&a/&e{0} &bhelp play &c- &aShow Play Help.'
+  - '&a/&e{0} &bhelp music &c- &aShow Music Help.'
+  - '&a/&e{0} &bhelp search &c- &aShow Search Help.'
+  - '&a/&e{0} &bhelp playlist &c- &aShow Playlist Help.'
+  - '[admin]&a/&e{0} &bhelp admin &c- &aShow Admin Help.'
+  - '&6========================================'
+  - '&a/&e{0} &bstop &c- &aStop Play'
+  - '&a/&e{0} &bloop &c- &aON/OFF LoopPlay'
+  - '&a/&e{0} &burl [MP3 Url] &c- &aPlay Netease Music.'
+  - '&6========================================'
+
+command-incorrect-command:
+  - '&cCommand format error:'
+  - '&7/{0} {1}&c<-- Here.'
+command-incorrect-sender: '&cThis command only support player usage.'
+command-play-searching: '&aSearching...'
+command-play-success: '&aPlay &r[&e{1}&r] &asuccess in &r[&e{0}&r].'
+command-reload-success: '&aConfiguration and language files have been reloaded!'
+
+command-suggestion-platform: 'Platform'
+command-suggestion-song: 'Song Name'
+
+toast-playing: '&aPlaying\n&e{0}'
+
+nosupported-region: '&cnull.'

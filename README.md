@@ -13,6 +13,23 @@
 
 2.0版本请查看[master](../../tree/master/)分支
 
+## 待办事项
+* - [x] 播放
+* - [x] 网易云音乐
+* - [x] QQ音乐
+* - [x] 酷狗音乐
+* - [x] 喜马拉雅
+* - [x] 语言系统
+* - [x] 配置系统
+* - [ ] 歌词系统
+* - [ ] 音乐播放器
+* - [ ] 专辑播放
+* - [ ] 歌单播放
+* - [ ] 全服队列
+* - [ ] 可扩展平台
+* - [ ] 数据库支持
+* - [ ] ZMusic Mod
+
 ## 简介
 
 这是一个功能强大的音乐系统，支持以下功能。
@@ -38,18 +55,6 @@
 * 提交 [Issues](../../issues)
 * 加入交流群：[1032722724](https://jq.qq.com/?_wv=1027&k=5oIs7cc) 反馈
 
-## 模块
-
-| 名称 | 说明 |
-| --- | --- |
-| common | 公共文件 |
-| database | 数据库支持插件(可选安装) |
-| bukkit | Bukkit/Spigot/Paper 插件 |
-| bungee | Bungeecord/Waterfall 插件 |
-| merge | 全部平台合并插件 |
-
-## 构建
-
 1. 克隆
 
    > ```shell
@@ -68,7 +73,7 @@
 
 ## 使用
 
-1. 在[release](../../releases)页或[CI构建][build-link]下载最新版本
+1. 在[release](../../releases)页下载最新版本
 
 2. 放入服务端插件目录
 
@@ -78,10 +83,16 @@
 
 [点击查看使用文档](https://zmusic.zhenxin.xyz/)
 
+## 鸣谢
 
-[java]: https://img.shields.io/badge/java-16-blue
+* [TabooLib](https://github.com/TabooLib/TabooLib) 插件开发框架
+* [JetBrains](https://www.jetbrains.com/zh-cn/) 提供强大的IDE支持
+* [hutool](https://hutool.cn/) 功能齐全的工具类库
 
-[kotlin]: https://img.shields.io/badge/kotlin-1.5.21-blue
+
+[java]: https://img.shields.io/badge/java-1.8-blue
+
+[kotlin]: https://img.shields.io/badge/kotlin-1.5.30-blue
 
 [license]: https://img.shields.io/github/license/RealHeart/ZMusic?color=blue
 

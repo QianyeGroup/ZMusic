@@ -1,14 +1,55 @@
+@file:Suppress("SpellCheckingInspection")
+
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
+    id("io.izzel.taboolib") version "1.27"
+    kotlin("jvm") version "1.5.30"
     `maven-publish`
-    id("io.izzel.taboolib") version "1.18"
-    id("org.jetbrains.kotlin.jvm") version "1.5.21"
 }
 
 group = "me.zhenxin.zmusic"
-version = "3.0-21w32a"
+version = "3.0-21w38a"
+
+val taboolib = "6.0.3-2"
+val minimessage = "4.2.0-SNAPSHOT"
+val bungeecord = "1.17-R0.1-SNAPSHOT"
+val velocity = "3.0.0"
+val hutool = "5.7.12"
+
+repositories {
+    // 阿里云
+    maven("https://maven.aliyun.com/repository/public/")
+    // sonatype
+    maven("https://oss.sonatype.org/content/repositories/snapshots")
+    // Velocity
+    maven("https://nexus.velocitypowered.com/repository/maven-public/")
+    // ZhenXin
+    maven("https://gitee.com/RealHeart/Maven/raw/master")
+}
+
+dependencies {
+    // NMS
+    compileOnly("ink.ptms.core:v11701:11701:mapped")
+    compileOnly("ink.ptms.core:v11701:11701:universal")
+    compileOnly("ink.ptms:nms-all:1.0.0")
+
+    // Kyori Adventure
+    compileOnly("me.zhenxin:adventure-text-minimessage:$minimessage")
+
+    // Platform API
+    compileOnly("net.md-5:bungeecord-api:$bungeecord")
+    compileOnly("com.velocitypowered:velocity-api:$velocity")
+
+    // hutool
+    compileOnly("cn.hutool:hutool-json:$hutool")
+    compileOnly("cn.hutool:hutool-http:$hutool")
+    compileOnly("cn.hutool:hutool-crypto:$hutool")
+
+    // Kotlin
+    compileOnly(kotlin("stdlib"))
+}
 
 
 publishing {
@@ -41,10 +82,12 @@ publishing {
 taboolib {
     description {
         contributors {
-            name("真心")
+            name("zhen_xin")
+            name("BlackNeko")
+            name("KanKe")
         }
-        description {
-            desc("全功能Minecraft点歌插件")
+        links {
+            name("homepage").url("https://m.zplu.cc")
         }
         dependencies {
             name("PlaceholderAPI")
@@ -56,36 +99,20 @@ taboolib {
     install(
         "platform-bukkit",
         "platform-bungee",
-        "platform-velocity",
-        "platform-sponge-api7"
+        "platform-velocity"
     )
     install(
-        "module-chat",
         "module-configuration",
         "module-lang",
-        "module-metrics"
+        "module-metrics",
+        "module-nms",
+        "module-nms-util"
     )
-    version = "6.0.0-pre51"
-}
-
-repositories {
-    // 阿里云
-    maven("https://maven.aliyun.com/repository/public/")
-    // SpigotMC
-    maven("https://hub.spigotmc.org/nexus/content/groups/public/")
-    mavenLocal()
-}
-
-dependencies {
-    compileOnly("ink.ptms.core:v11701:11701:mapped")
-    compileOnly("ink.ptms.core:v11701:11701:universal")
-
-    compileOnly("net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT")
-
-    compileOnly("com.alibaba:fastjson:1.2.76")
-    compileOnly("com.squareup.okhttp3:okhttp:4.9.1")
-
-    compileOnly(kotlin("stdlib"))
+    // 实验性
+    install(
+        "expansion-command-helper"
+    )
+    version = taboolib
 }
 
 tasks.withType<KotlinCompile> {

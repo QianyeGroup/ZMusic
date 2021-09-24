@@ -1,10 +1,9 @@
-package me.zhenxin.zmusic.module.taboolib.impl
+package me.zhenxin.zmusic.module.taboolib.pluginmessage.impl
 
-import me.zhenxin.zmusic.module.taboolib.PluginMessage
+import me.zhenxin.zmusic.module.taboolib.pluginmessage.PluginMessage
 import net.md_5.bungee.api.connection.ProxiedPlayer
 import taboolib.common.platform.Platform
 import taboolib.common.platform.PlatformImplementation
-import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
 import taboolib.platform.BungeePlugin
 
@@ -16,8 +15,9 @@ import taboolib.platform.BungeePlugin
  * @email qgzhenxin@qq.com
  */
 
+@Suppress("unused")
 @PlatformImplementation(Platform.BUNGEE)
-class PluginMessageBungeeImpl : PluginMessage {
+class PluginMessageBungee : PluginMessage {
     private val plugin by lazy { BungeePlugin.getInstance() }
     override fun registerChannel(channel: String) {
         plugin.proxy.registerChannel(channel)
@@ -25,6 +25,6 @@ class PluginMessageBungeeImpl : PluginMessage {
 
     override fun sendMessage(sender: ProxyPlayer, channel: String, data: ByteArray) {
         val player by lazy { sender.cast<ProxiedPlayer>() }
-        player.sendData(channel, data)
+        player.sendData(channel, encodeBytes(data))
     }
 }

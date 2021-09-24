@@ -9,39 +9,41 @@ import me.zhenxin.zmusic.utils.HttpUtil
 import java.net.URLEncoder
 
 /**
- * 网易云音乐接口实现
+ * QQ音乐接口实现
  *
  * @author 真心
- * @since 2021/7/14 21:37
+ * @since 2021/8/30 13:26
  * @email qgzhenxin@qq.com
  */
-class NeteaseApi : MusicApi {
-    private val api = Config.API_NETEASE_LINK
-    override val name: String = Lang.PLATFORM_NETEASE
+class QQMusicApi : MusicApi {
+    private val api = Config.API_QQ_LINK
+    override val name: String = Lang.PLATFORM_QQ
 
     override fun searchPage(keyword: String, page: Int, count: Int): MutableList<MusicInfo> {
         val musics = mutableListOf<MusicInfo>()
-        val offset = (page - 1) * count
         val search =
             HttpUtil.get(
-                "$api/cloudsearch?keywords=${
+                "$api/search?key=${
                     URLEncoder.encode(keyword, "UTF-8")
-                }&limit=$count&offset=$offset"
+                }&pageSize=$count&pageNo=$page"
             )
         val data = JSONObject(search.data)
-        val result = data.getJSONObject("result")
-        val songs = result.getJSONArray("songs")
+        val result = data.getJSONObject("data")
+        val songs = result.getJSONArray("list")
         songs.forEach {
             it as JSONObject
-
-            val id = it.getStr("id")
-            val name = it.getStr("name")
-            val singers = it.getJSONArray("ar")
+            val id = it.getStr("songmid")
+            val songInfo = HttpUtil.get("$api/song?songmid=${id}")
+            val info = JSONObject(songInfo.data)
+            val track = info.getJSONObject("data").getJSONObject("track_info")
+            val name = track.getStr("name")
+            val singers = track.getJSONArray("singer")
             val singer = mergeSingers(singers)
-            val album = it.getJSONObject("al")
+            val album = track.getJSONObject("album")
             val albumName = album.getStr("name")
-            val albumImage = album.getStr("picUrl")
-            val duration = it.getLong("dt")
+            val albumImage = "https://y.qq.com/music/photo_new/T002R300x300M000${album.getStr("pmid")}.jpg"
+            val duration = track.getLong("interval") * 1000
+
 
             musics.add(
                 MusicInfo(
@@ -68,7 +70,6 @@ class NeteaseApi : MusicApi {
     override fun getPlayUrl(id: String): String {
         val result = HttpUtil.get("$api/song/url?id=$id")
         val json = JSONObject(result.data)
-        val data = json.getJSONArray("data")[0] as JSONObject
-        return data.getStr("url")
+        return json.getStr("data")
     }
 }
