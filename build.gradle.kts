@@ -6,6 +6,7 @@ plugins {
     java
     id("io.izzel.taboolib") version "1.27"
     kotlin("jvm") version "1.5.30"
+    `maven-publish`
 }
 
 group = "me.zhenxin.zmusic"
@@ -49,6 +50,34 @@ dependencies {
     // Kotlin
     compileOnly(kotlin("stdlib"))
 }
+
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/RealHeart/ZMusic")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+         create<MavenPublication>("maven") {
+            groupId = "me.zhenxin.zmusic"
+            artifactId = tasks.jar.get().archiveBaseName.get()
+            version = tasks.jar.get().archiveVersion.get()
+
+            from(components["java"])
+
+            pom {
+                name.set("ZMusic")
+            }
+         }
+    }
+}
+
 
 taboolib {
     description {
