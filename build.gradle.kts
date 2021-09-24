@@ -56,7 +56,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/RealHeart/ZMusic")
+            url = uri("https://maven.pkg.github.com/realheart/zmusic")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
